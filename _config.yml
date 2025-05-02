@@ -26,6 +26,9 @@ github_username:  revportoalegre
 # Build settings
 markdown: kramdown
 
+#Remote Theme
+remote_theme: patdryburgh/hitchens
+
 # Permalink structure
 permalink: /:title/
 
@@ -61,6 +64,7 @@ paginate_path: "/pag/:num/"
 
 plugins:
   - jekyll-paginate
+  - jekyll-remote-theme
 
 paginate: 3
 paginate_path: "/page/:num/"
