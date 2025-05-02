@@ -1,8 +1,14 @@
-- title: About
-  url: /about.html
+- title: Início
+  url: /
 
-- title: Source
-  url: https://github.com/patdryburgh/hitchens
+- title: Sobre
+  url: /sobre/
 
-- title: Designer
-  url: http://patdryburgh.com
+- title: Expediente
+  url: /expediente/
+
+- title: Números
+  url: /numeros/
+
+- title: Pesquisar
+  url: /pesquisar/
