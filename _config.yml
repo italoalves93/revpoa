@@ -29,6 +29,20 @@ markdown: kramdown
 # Permalink structure
 permalink: /:title/
 
+# Collections for magazine issues
+collections:
+  issues:
+    output: true
+    permalink: /numeros/:path/
+
+# Default front matter for issues
+defaults:
+  - scope:
+      path: ""
+      type: "issues"
+    values:
+      layout: "issue"
+
 # Pagination
 paginate: 5 # Adjust according to your preference
 paginate_path: "/pag/:num/"
