@@ -26,6 +26,13 @@ github_username:  revportoalegre
 # Build settings
 markdown: kramdown
 
+# Permalink structure
+permalink: /:title/
+
+# Pagination
+paginate: 5 # Adjust according to your preference
+paginate_path: "/pag/:num/"
+
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
 # to override the default setting.
