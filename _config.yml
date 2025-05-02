@@ -17,8 +17,8 @@ title: Revista Porto Alegre
 email: revistaportoalegre@revistaportoalegre.com
 description: >- # this means to ignore newlines until "baseurl:"
   An inarguably well-designed Jekyll theme.
-baseurl: "/hitchens" # the subpath of your site, e.g. /blog
-url: "http://revistaportoalegre.com" # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: "/revpoa" # the subpath of your site, e.g. /blog
+url: "http://italoalves93.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 icon: /assets/images/icon-512.png
 twitter_username: revportoalegre
 github_username:  revportoalegre
