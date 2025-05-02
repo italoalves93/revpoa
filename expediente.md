@@ -11,9 +11,6 @@ Italo Alves
 **Ilustrações**
 Gabriela João
 
-**Conselho Editorial**
-[Nome] - [Instituição]
-[Nome] - [Instituição]
 
 ## Contato
 
