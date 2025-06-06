@@ -1,10 +1,20 @@
-$brand-color:         #fede00;
-$highlight:           lighten($brand-color, 35%);
-$text-color:          #0b0404;
-$muted-text-color:    #64644B;
-$font-family:         "EB Garamond", Garamond, "Times New Roman", serif;
+// Font stacks
+$title-font-family: "Crimson Text", "Georgia", "Times New Roman", serif;
+$body-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
-$on-bigphone:         375px;
-$on-tablet:           768px;
-$on-laptop:           960px;
-$on-desktop:          1200px;
+// Colors
+$background-color: #f5f2e8;      // Light beige background
+$content-background: #fefefe;     // Off-white for content areas
+$text-color: #2c2c2c;            // Dark grey text
+$muted-text-color: #666666;      // Lighter grey for meta text
+$brand-color: #8b7355;           // Muted brown for accents
+$highlight: #fff2cc;             // Light yellow for highlights
+
+// Remove or update the old yellow brand color
+// $brand-color: #fede00;  // Remove this line
+
+// Responsive breakpoints
+$on-bigphone: 375px;
+$on-tablet: 768px;
+$on-laptop: 960px;
+$on-desktop: 1200px;
