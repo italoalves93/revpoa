@@ -27,7 +27,7 @@ github_username:  revportoalegre
 markdown: kramdown
 
 #Remote Theme
-remote_theme: patdryburgh/hitchens
+#remote_theme: patdryburgh/hitchens
 
 # Permalink structure
 permalink: /:title/
