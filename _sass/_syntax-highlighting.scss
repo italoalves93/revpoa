@@ -9,10 +9,11 @@ code.highlighter-rouge {
 }
 
 .highlight {
-  background: #fff;
-  font-family: courier, monospace;
+  background: $content-background;  // Update this too
+  font-family: "SFMono-Regular", "Monaco", "Inconsolata", "Fira Code", "Droid Sans Mono", "Courier New", monospace;
   font-size: .875em;
   margin: 2rem auto;
+  border-radius: 4px;
 
   > * {
     padding: 0 1.5rem;
