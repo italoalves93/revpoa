@@ -2,32 +2,34 @@
   box-sizing: border-box;
   position: relative;
   text-align: center;
-  padding: 2em 0;
+  padding: 3em 2em;                 // More padding
+  margin-bottom: 2em;
 }
 
 .site-masthead h1 {
   font-family: $title-font-family;
   font-size: 3em;
-  margin-bottom: 0.2em;
-  margin-top: 0.5em;
-  padding: 0 2rem;
+  margin-bottom: 0.3em;
+  margin-top: 0;
+  padding: 0 1rem;
   font-weight: 600;
   color: $text-color;
   
   @media (min-width: $on-tablet) {
-    font-size: 4.5em;             // Slightly smaller than 6em
+    font-size: 4.5em;
   }
 }
 
 .site-masthead h2 {
   color: $muted-text-color;
-  font-family: $body-font-family;  // Use sans-serif for subtitle
+  font-family: $body-font-family;
   font-size: 1.1em;
   margin: 0;
-  padding: 0 2rem;
+  padding: 0 1rem;
   font-weight: 400;
+  font-style: italic;              // Make subtitle italic
   
   @media (min-width: $on-tablet) {
-    font-size: 1.5em;             // Much smaller than 3em
+    font-size: 1.5em;
   }
 }
