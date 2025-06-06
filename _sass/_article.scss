@@ -1,65 +1,62 @@
 .post {
-  background: white;
+  background: $content-background;
   margin: 2em auto;
   max-width: 60rem;
-  padding: 2em 0;
-  box-shadow: 12px 18px 24px rgba(darken($brand-color, 50%), .1);
+  padding: 3em 0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
 }
 
 .post > * {
   margin-left: auto;
   margin-right: auto;
-  max-width: 36rem;
-  padding: 0 1em;
+  max-width: 40rem;                // Slightly wider for better readability
+  padding: 0 1.5em;
 }
 
 .post > h1 {
-  font-size: 2em;
-  max-width: 48rem;
-  padding: 2em 1em;
+  font-family: $title-font-family;
+  font-size: 2.5em;
+  max-width: 50rem;
+  padding: 1em 1.5em 0.5em;
   text-align: center;
+  font-weight: 600;
+  line-height: 1.2;
 }
 
 .post p {
-  text-align: justify;
-  text-indent: 1.5em;
-  text-justify: inter-word;
-}
-
-.post p:first-of-type,
-.post h2 + p {
-  text-indent: 0;
+  text-align: left;                // Left align instead of justify
+  text-indent: 0;                  // Remove text indent
+  margin: 1.2em 0;
+  font-size: 1.05em;
+  line-height: 1.65;
 }
 
 .post a:hover {
-  background: $highlight;
-}
-
-.post dl,
-.post ul,
-.post ol {
-  margin: 1.5em;
-}
-
-.post li {
-  margin-left: 1.5rem;
-  margin-right: 1.5rem;
-}
-
-.post-content:first-child {
-  margin-top: 4em;
+  background: rgba($highlight, 0.6);
 }
 
 .post-meta {
   margin-bottom: 2em;
   margin-top: 2em;
-  text-align: right;
+  text-align: center;              // Center the meta info
+  color: $muted-text-color;
+  font-size: 0.9em;
 }
 
 .back-link {
   display: inline-block;
-  font-size: .75em;
-  padding: 1em;
+  font-size: 0.875em;
+  padding: 0.75em 1.5em;
   text-decoration: none;
   text-transform: uppercase;
+  color: $brand-color;
+  border: 1px solid $brand-color;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: $brand-color;
+    color: $content-background;
+  }
 }
