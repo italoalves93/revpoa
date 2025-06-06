@@ -127,3 +127,21 @@ figcaption {
   margin-bottom: 2em;
   color: $muted-text-color;
 }
+
+.home {
+  background: $content-background;    // Add white background
+  max-width: 48em;                   // Make it wider than before (was 24em)
+  margin: 2em auto;                  // Center it with margin
+  padding: 3em 2em;                  // Add more padding
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);  // Add subtle shadow
+  border-radius: 8px;                // Add rounded corners
+}
+
+.content-title {
+  font-family: $title-font-family;   // Use serif font for "Contents"
+  font-size: 2.5em;
+  margin-bottom: 1.5em;
+  text-align: center;
+  font-weight: 600;
+  color: $text-color;
+}
