@@ -1,21 +1,15 @@
 ---
 ---
 
-@charset "utf-8";
-
-$asset_url: '{{ '/assets' | absolute_url }}';
-
-@import 
-  "reset",
-  "variables",
-  "syntax-highlighting",
-  "mixins",
-  "font",
-  "base",
-  "masthead",
-  "menu",
-  "post-list",
-  "article",
-  "footnotes",
-  "search"
-;
+@import 'variables';     // This must be first!
+@import 'reset';
+@import 'mixins';
+@import 'font';
+@import 'base';
+@import 'masthead';
+@import 'menu';
+@import 'post-list';
+@import 'article';
+@import 'footnotes';
+@import 'search';
+@import 'syntax-highlighting';
