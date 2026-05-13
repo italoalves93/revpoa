@@ -1,35 +1,52 @@
 .footnote {
-  border: 1px solid $muted-text-color;
-  border-radius: 1em;
-  color: $text-color;
-  display: inline;
-  font-size: .75em;
-  font-weight: 700;
-  padding: 0 .75em;
+  color: $brand-color;
+  font-size: 0.72em;
+  font-weight: 500;
   text-decoration: none;
-  margin: 0 .25em;
+  vertical-align: super;
+  line-height: 0;
+  padding: 0 0.1em;
+  border: none;
+  border-radius: 0;
+
   &:hover,
   &:focus {
-    background: $brand-color;
-    border-color: $brand-color;
+    text-decoration: underline;
+    background: none;
   }
 }
 
-.footnotes::before {
-  content: '';
-  @include divider;
-  margin: 4em auto;
-}
-
 .footnotes {
+  margin-top: 3em;
   margin-bottom: 4em;
-}
+  padding-top: 1.5em;
+  border-top: 1px solid rgba($brand-color, 0.25);
 
-.footnotes li {
-  margin-bottom: 1em;
+  ol {
+    font-family: $body-font-family;
+    font-size: 0.84em;
+    font-weight: 300;
+    line-height: 1.65;
+    color: $muted-text-color;
+    padding-left: 1.4em;
+  }
+
+  li {
+    margin-bottom: 0.7em;
+  }
+
+  p {
+    margin: 0;
+    font-size: 1em;
+  }
 }
 
 .reversefootnote {
-  font-size: .75em;
-  opacity: .75;
+  font-size: 0.75em;
+  color: $brand-color;
+  text-decoration: none;
+  margin-left: 0.3em;
+  opacity: 0.7;
+
+  &:hover { opacity: 1; }
 }

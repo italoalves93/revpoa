@@ -1,62 +1,204 @@
 .post {
   background: $content-background;
   margin: 2em auto;
-  max-width: 60rem;
-  padding: 3em 0;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  border-radius: 8px;
+  max-width: 48em;
+  padding: 3.5em 0 4em;
+  box-shadow: 0 2px 24px rgba(0, 0, 0, 0.09);
+
+  @media (max-width: 768px) {
+    margin: 0;
+    box-shadow: none;
+    padding: 2em 0 3em;
+  }
 }
 
 .post > * {
   margin-left: auto;
   margin-right: auto;
-  max-width: 40rem;                // Slightly wider for better readability
-  padding: 0 1.5em;
+  max-width: 42rem;
+  padding: 0 2em;
+
+  @media (max-width: 768px) {
+    padding: 0 1.25em;
+  }
 }
 
-.post > h1 {
+// Post title — wider than body text
+.post-title {
   font-family: $title-font-family;
-  font-size: 2.5em;
-  max-width: 50rem;
-  padding: 1em 1.5em 0.5em;
-  text-align: center;
+  font-size: 2.4em;
   font-weight: 600;
-  line-height: 1.2;
+  line-height: 1.18;
+  max-width: 46em;
+  padding: 0.2em 1em 0.4em;
+  text-align: center;
+  color: #1a1a1a;
+
+  @media (max-width: 768px) {
+    font-size: 1.8em;
+    padding: 0.2em 0.75em 0.4em;
+  }
 }
 
+// Post header block (meta + blurb + share)
+.post-header {
+  max-width: 42rem;
+  padding: 0 2em;
+  margin: 0 auto 2em;
+  text-align: center;
+
+  @media (max-width: 768px) {
+    padding: 0 1.25em;
+  }
+}
+
+.post-dateline {
+  font-family: $body-font-family;
+  font-size: 0.8em;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: $muted-text-color;
+  margin-bottom: 0.5em;
+}
+
+.post-authors {
+  font-family: $body-font-family;
+  font-size: 0.9em;
+  font-weight: 400;
+  color: $muted-text-color;
+  margin-bottom: 1.4em;
+
+  a {
+    color: $brand-color;
+    text-decoration: none;
+    border-bottom: 1px solid rgba($brand-color, 0.35);
+    transition: border-color 0.2s ease;
+
+    &:hover {
+      border-color: $brand-color;
+      background: none;
+    }
+  }
+
+  .author-sep {
+    margin: 0 0.3em;
+    color: $muted-text-color;
+  }
+}
+
+.post-blurb {
+  font-family: $title-font-family;
+  font-style: italic;
+  font-size: 1.15em;
+  line-height: 1.55;
+  color: #4a4644;
+  margin: 0 auto 1.6em;
+  padding-bottom: 1.4em;
+  border-bottom: 1px solid rgba($brand-color, 0.2);
+}
+
+// Share buttons
+.post-share {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 2.5em;
+}
+
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: $body-font-family;
+  font-size: 0.75em;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  padding: 5px 12px;
+  border: 1px solid rgba($brand-color, 0.4);
+  border-radius: 3px;
+  color: $brand-color;
+  text-decoration: none;
+  background: transparent;
+  transition: all 0.18s ease;
+  cursor: pointer;
+
+  &:hover {
+    background: $brand-color;
+    color: #fff;
+    border-color: $brand-color;
+  }
+
+  svg {
+    width: 13px;
+    height: 13px;
+    fill: currentColor;
+  }
+}
+
+// Body text
 .post p {
-  text-align: left;                // Left align instead of justify
-  text-indent: 0;                  // Remove text indent
-  margin: 1.2em 0;
-  font-size: 1.05em;
-  line-height: 1.65;
+  text-align: left;
+  text-indent: 0;
+  margin: 1.25em 0;
+  font-size: 1em;
+  font-weight: 300;
+  line-height: 1.78;
+}
+
+.post h2, .post h3 {
+  text-align: left;
+  margin-top: 2em;
 }
 
 .post a:hover {
-  background: rgba($highlight, 0.6);
+  background: rgba($highlight, 0.7);
 }
 
 .post-meta {
-  margin-bottom: 2em;
-  margin-top: 2em;
-  text-align: center;              // Center the meta info
+  margin: 3em auto 0;
+  padding-top: 2em;
+  text-align: center;
   color: $muted-text-color;
-  font-size: 0.9em;
+  font-size: 0.85em;
+  border-top: 1px solid rgba($brand-color, 0.15);
 }
 
 .back-link {
   display: inline-block;
-  font-size: 0.875em;
-  padding: 0.75em 1.5em;
+  font-size: 0.8em;
+  font-weight: 500;
+  padding: 0.6em 1.2em;
   text-decoration: none;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: $brand-color;
-  border: 1px solid $brand-color;
-  border-radius: 4px;
-  transition: all 0.2s ease;
-  
+  border: 1px solid rgba($brand-color, 0.4);
+  border-radius: 3px;
+  transition: all 0.18s ease;
+
   &:hover {
     background: $brand-color;
     color: $content-background;
+    border-color: $brand-color;
+  }
+}
+
+// Reference block for reviews
+.referencia-block {
+  background: $review-bg;
+  border-left: 3px solid $brand-color;
+  padding: 1em 1.4em;
+  margin: 0 auto 2em;
+  max-width: 42rem;
+
+  p {
+    font-family: $title-font-family;
+    font-style: italic;
+    font-size: 0.95em;
+    line-height: 1.6;
+    color: #3a3530;
+    margin: 0;
   }
 }

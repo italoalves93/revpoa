@@ -2,13 +2,13 @@ body {
   background: $background-color;
   color: $text-color;
   font-family: $body-font-family;
-  font-size: 1.125em;              // Slightly smaller base size
-  line-height: 1.6;                // Better readability
+  font-size: 1.0625em;
+  font-weight: 300;
+  line-height: 1.7;
   margin: 0;
   padding: 0;
 }
 
-// Headings use serif font
 h1, h2, h3, h4, h5, h6 {
   font-family: $title-font-family;
   font-weight: 600;
@@ -59,7 +59,7 @@ h6 {
 // Body text improvements
 p {
   margin: 1em 0;
-  font-weight: 400;
+  font-weight: 300;
 }
 
 em {
@@ -67,7 +67,7 @@ em {
 }
 
 strong {
-  font-weight: 600;
+  font-weight: 500;
 }
 
 a {
@@ -129,12 +129,11 @@ figcaption {
 }
 
 .home {
-  background: $content-background;    // Add white background
-  max-width: 48em;                   // Make it wider than before (was 24em)
-  margin: 2em auto;                  // Center it with margin
-  padding: 3em 2em;                  // Add more padding
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);  // Add subtle shadow
-  border-radius: 8px;                // Add rounded corners
+  background: $content-background;
+  max-width: 46em;
+  margin: 2em auto;
+  padding: 3em 2.5em;
+  box-shadow: 0 2px 24px rgba(0, 0, 0, 0.09);
 }
 
 .content-title {
