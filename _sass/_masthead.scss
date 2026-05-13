@@ -1,32 +1,25 @@
 .site-masthead {
   box-sizing: border-box;
   text-align: center;
-  padding: 2.5em 2em 1.5em;
+  padding: 2.5em 2em 1em;
   margin-bottom: 0;
+  background: $background-color;
 }
 
 .site-logo-link {
   display: inline-block;
   text-decoration: none;
-  margin: 0.5em auto 0.75em;
+  margin: 0 auto 0.5em;
 }
 
 .site-logo {
   display: block;
-  max-width: 400px;
-  width: 100%;
+  max-width: 560px;
+  width: 90%;
   height: auto;
   margin: 0 auto;
   box-shadow: none;
+  mix-blend-mode: multiply;
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
-}
-
-.site-description {
-  font-family: $body-font-family;
-  font-size: 0.9em;
-  font-weight: 300;
-  font-style: italic;
-  color: $muted-text-color;
-  margin: 0 0 0.5em;
 }

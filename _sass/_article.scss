@@ -108,7 +108,7 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  font-family: $body-font-family;
+  font-family: $ui-font-family;
   font-size: 0.75em;
   font-weight: 500;
   letter-spacing: 0.04em;
@@ -135,14 +135,64 @@
   }
 }
 
+// Icon-only variant (X, Facebook, WhatsApp)
+.share-btn--icon {
+  padding: 6px 9px;
+}
+
+// PDF / print button
+.post-footer-actions {
+  max-width: 42rem;
+  padding: 0 2em;
+  margin: 2em auto 3em;
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  border-top: 1px solid rgba($brand-color, 0.15);
+  padding-top: 1.8em;
+}
+
+.print-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: $ui-font-family;
+  font-size: 0.78em;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border: 1px solid rgba($brand-color, 0.4);
+  border-radius: 3px;
+  color: $brand-color;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  flex-shrink: 0;
+
+  &:hover {
+    background: $brand-color;
+    color: #fff;
+    border-color: $brand-color;
+  }
+}
+
+.print-url {
+  font-family: $ui-font-family;
+  font-size: 0.75em;
+  color: $muted-text-color;
+  word-break: break-all;
+  opacity: 0.7;
+}
+
 // Body text
 .post-content {
   p {
     text-align: left;
     margin: 1.3em 0;
-    font-size: 1.1em;
-    font-weight: 300;
-    line-height: 1.8;
+    font-size: 1.05em;
+    font-weight: 400;
+    line-height: 1.85;
   }
 
   h2, h3 {

@@ -2,6 +2,18 @@
   <a href="{{ post.url | relative_url }}" class="post-link">
     <div class="post-link__heading">
       <h1 class="post-link__title">{{ post.title }}</h1>
+      {% assign author_slug = post.author %}
+      {% assign author_data = site.data.autores[author_slug] %}
+      {% if author_data %}
+        <p class="post-link__author">{{ author_data.nome }}</p>
+      {% elsif post.authors %}
+        <p class="post-link__author">
+          {% for slug in post.authors %}
+            {% assign a = site.data.autores[slug] %}
+            {% if a %}{{ a.nome }}{% else %}{{ slug }}{% endif %}{% unless forloop.last %} &amp; {% endunless %}
+          {% endfor %}
+        </p>
+      {% endif %}
       {% if post.blurb %}
         <p class="post-link__blurb">{{ post.blurb }}</p>
       {% endif %}
