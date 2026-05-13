@@ -1,16 +1,10 @@
 <li>
   <a href="{{ post.url | relative_url }}" class="post-link">
     <div class="post-link__heading">
-      {% unless post.title == "" %}
-        <h1 class="post-link__title">{{ post.title }}</h1>
-      {% else %}
-        {% include post-excerpt.html %}
-      {% endunless %}
+      <h1 class="post-link__title">{{ post.title }}</h1>
+      {% if post.blurb %}
+        <p class="post-link__blurb">{{ post.blurb }}</p>
+      {% endif %}
     </div>
-    <span class="post-date">
-      {% assign d = post.date | date: "%-d de %B de %Y" %}
-      {% assign d = d | replace: "January","janeiro" | replace: "February","fevereiro" | replace: "March","março" | replace: "April","abril" | replace: "May","maio" | replace: "June","junho" | replace: "July","julho" | replace: "August","agosto" | replace: "September","setembro" | replace: "October","outubro" | replace: "November","novembro" | replace: "December","dezembro" %}
-      {{ d }}
-    </span>
   </a>
 </li>

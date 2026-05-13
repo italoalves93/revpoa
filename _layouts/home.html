@@ -6,13 +6,10 @@ layout: default
   {% include menu.html %}
 {% else %}
   <header class="site-masthead">
-    {% include menu.html %}
     <a href="{{ '/' | relative_url }}" class="site-logo-link">
       <img src="{{ '/assets/images/logo.png' | relative_url }}" alt="{{ site.title }}" class="site-logo">
     </a>
-    {% if site.description %}
-      <p class="site-description">{{ site.description }}</p>
-    {% endif %}
+    {% include menu.html %}
   </header>
 {% endif %}
 
