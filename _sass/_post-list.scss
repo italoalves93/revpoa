@@ -1,12 +1,14 @@
 .post-list {
   margin: 2em 0;
   list-style: none;
-  padding: 0;                        // Remove default padding
-  
-  &:hover,
-  &:focus-within {
-    .post-link {
-      opacity: .6;
+  padding: 0;
+
+  @media (min-width: $on-tablet) {
+    &:hover,
+    &:focus-within {
+      .post-link {
+        opacity: .6;
+      }
     }
   }
 }
@@ -15,6 +17,11 @@
   margin-bottom: 3em;
   border-bottom: 1px solid rgba($brand-color, 0.1);
   padding-bottom: 2.5em;
+
+  @media (max-width: $on-tablet) {
+    margin-bottom: 1.8em;
+    padding-bottom: 1.5em;
+  }
   
   &:last-child {
     border-bottom: none;             // Remove border from last item

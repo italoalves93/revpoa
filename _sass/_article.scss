@@ -180,7 +180,7 @@
   }
 }
 
-.post a:hover {
+.post a:not(.share-btn):hover {
   background: rgba($highlight, 0.6);
 }
 
