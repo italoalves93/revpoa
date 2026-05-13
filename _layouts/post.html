@@ -2,12 +2,6 @@
 layout: default
 ---
 
-{% if site.data.menu %}
-  {% include menu.html %}
-{% else %}
-  {% include back-link.html %}
-{% endif %}
-
 <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting" id="main" role="article" aria-label="Content">
 
   {% if page.title != "" %}
@@ -69,7 +63,11 @@ layout: default
         <svg viewBox="0 0 24 24"><path d="M13.723 17.277a.999.999 0 000-1.414l-2.05-2.049a4.001 4.001 0 015.663-5.663l2.049 2.05a1 1 0 001.414-1.415l-2.049-2.049a6.001 6.001 0 00-8.491 8.491l2.05 2.049a1 1 0 001.414 0zm-3.446-10.554a.999.999 0 000 1.414l2.05 2.049a4.001 4.001 0 01-5.663 5.663l-2.049-2.05a1 1 0 00-1.414 1.415l2.049 2.049a6.001 6.001 0 008.491-8.491l-2.05-2.049a1 1 0 00-1.414 0z"/></svg>
         Copiar link
       </button>
+      <button class="share-btn share-btn--icon" onclick="window.print()" aria-label="Imprimir">
+        <svg viewBox="0 0 24 24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>
+      </button>
     </div>
+    <span class="print-url">{{ page.url | absolute_url }}</span>
     {% endif %}
 
   </div>
@@ -77,16 +75,6 @@ layout: default
   <div class="post-content e-content" itemprop="articleBody">
     {{ content }}
   </div>
-
-  {% if page.author or page.authors %}
-  <div class="post-footer-actions">
-    <button class="print-btn" onclick="window.print()" aria-label="Gerar PDF">
-      <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>
-      Gerar PDF
-    </button>
-    <span class="print-url">{{ page.url | absolute_url }}</span>
-  </div>
-  {% endif %}
 
   {% if site.disqus.shortname %}
     {% include disqus-comments.html %}

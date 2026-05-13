@@ -10,22 +10,55 @@
     margin-top: 1.5cm;
   }
 
-  // ── Hide everything that isn't article content ────────────────────────────────
-  .site-masthead,
+  // ── Hide nav, share buttons, search ─────────────────────────────────────────
   .site-navigation,
   .post-share,
-  .post-footer-actions,
   .back-link,
   #search,
   .search-form {
     display: none !important;
   }
 
+  // ── Masthead: show logo only ──────────────────────────────────────────────────
+  .site-masthead {
+    background: #fff !important;
+    padding: 0 0 1.2cm !important;
+    margin: 0 !important;
+    text-align: left !important;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 1cm !important;
+    page-break-after: avoid;
+  }
+
+  .site-logo {
+    max-width: 260pt !important;
+    width: auto !important;
+    mix-blend-mode: normal !important;
+    filter: none !important;
+  }
+
+  .site-logo-link {
+    display: block !important;
+    text-decoration: none !important;
+  }
+
+  // ── Show print URL ────────────────────────────────────────────────────────────
+  .print-url {
+    display: block !important;
+    font-family: "Open Sans", Arial, sans-serif;
+    font-size: 8.5pt;
+    color: #888;
+    margin-top: 2em;
+    border-top: 1px solid #ddd;
+    padding-top: 0.6em;
+    word-break: break-all;
+  }
+
   // ── Body / layout reset ───────────────────────────────────────────────────────
   body {
     background: #fff !important;
     color: #111 !important;
-    font-family: "PT Serif", Georgia, serif;
+    font-family: "Open Sans", Arial, sans-serif;
     font-size: 11pt;
     line-height: 1.75;
   }
@@ -175,24 +208,6 @@
     padding: 0 !important;
   }
 
-  // ── Footer: canonical URL (shown via .print-url) ─────────────────────────────
-  .post-footer-actions {
-    display: flex !important;
-    border-top: 1px solid #ccc !important;
-    padding-top: 0.8em !important;
-    margin-top: 2em !important;
-  }
-
-  .print-btn {
-    display: none !important;
-  }
-
-  .print-url {
-    font-family: "Open Sans", Arial, sans-serif;
-    font-size: 8.5pt;
-    color: #777;
-    opacity: 1 !important;
-  }
 
   // ── Links ────────────────────────────────────────────────────────────────────
   a {

@@ -12,9 +12,9 @@
 }
 
 .post-list li {
-  margin-bottom: 1.5em;              // More space between posts
-  border-bottom: 1px solid rgba($brand-color, 0.1);  // Subtle divider
-  padding-bottom: 1em;
+  margin-bottom: 3em;
+  border-bottom: 1px solid rgba($brand-color, 0.1);
+  padding-bottom: 2.5em;
   
   &:last-child {
     border-bottom: none;             // Remove border from last item
@@ -40,11 +40,11 @@
 
   h1 {
     font-family: $title-font-family;
-    font-size: 1.55em;
+    font-size: 1.65em;
     margin-bottom: 0.15em;
     margin-top: 0;
-    font-weight: 600;
-    line-height: 1.25;
+    font-weight: 700;
+    line-height: 1.2;
     color: $text-color;
   }
 }
@@ -53,8 +53,8 @@
   font-family: $ui-font-family;
   font-size: 0.82em;
   font-weight: 400;
-  color: $brand-color;
-  margin: 0 0 0.4em;
+  color: $muted-text-color;
+  margin: 0 0 0.5em;
   letter-spacing: 0.01em;
 }
 

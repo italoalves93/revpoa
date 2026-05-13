@@ -21,6 +21,12 @@
   </head>
   <body>
 
+    <header class="site-masthead">
+      <a href="{{ '/' | relative_url }}" class="site-logo-link">
+        <img src="{{ '/assets/images/logo.png' | relative_url }}" alt="{{ site.title }}" class="site-logo">
+      </a>
+      {% include menu.html %}
+    </header>
 
     {{ content }}
 

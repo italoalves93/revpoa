@@ -2,17 +2,6 @@
 layout: default
 ---
 
-{% if site.data.menu and site.paginate and site.paginate_path and paginator.page > 1 %}
-  {% include menu.html %}
-{% else %}
-  <header class="site-masthead">
-    <a href="{{ '/' | relative_url }}" class="site-logo-link">
-      <img src="{{ '/assets/images/logo.png' | relative_url }}" alt="{{ site.title }}" class="site-logo">
-    </a>
-    {% include menu.html %}
-  </header>
-{% endif %}
-
 <main class="home" id="main" role="main" aria-label="Content">
 
   {% if site.paginate and site.paginate_path %}

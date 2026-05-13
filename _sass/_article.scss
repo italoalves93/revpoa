@@ -26,8 +26,8 @@
 .post-title {
   font-family: $title-font-family;
   font-size: 2.75em;
-  font-weight: 600;
-  line-height: 1.15;
+  font-weight: 700;
+  line-height: 1.12;
   max-width: 46em;
   padding: 0.2em 1em 0.4em;
   text-align: center;
@@ -63,16 +63,17 @@
 
   .byline-sep {
     margin: 0 0.45em;
-    color: rgba($brand-color, 0.6);
+    color: rgba($muted-text-color, 0.5);
   }
 
   a {
-    color: $brand-color;
+    color: $muted-text-color;
     text-decoration: none;
-    border-bottom: 1px solid rgba($brand-color, 0.3);
-    transition: border-color 0.2s ease;
+    border-bottom: 1px solid rgba($muted-text-color, 0.3);
+    transition: color 0.2s ease, border-color 0.2s ease;
 
     &:hover {
+      color: $brand-color;
       border-color: $brand-color;
       background: none;
     }
@@ -113,9 +114,9 @@
   font-weight: 500;
   letter-spacing: 0.04em;
   padding: 5px 12px;
-  border: 1px solid rgba($brand-color, 0.4);
+  border: 1px solid rgba($muted-text-color, 0.35);
   border-radius: 3px;
-  color: $brand-color;
+  color: $muted-text-color;
   text-decoration: none;
   background: transparent;
   transition: all 0.18s ease;
@@ -140,49 +141,9 @@
   padding: 6px 9px;
 }
 
-// PDF / print button
-.post-footer-actions {
-  max-width: 42rem;
-  padding: 0 2em;
-  margin: 2em auto 3em;
-  display: flex;
-  align-items: center;
-  gap: 1em;
-  border-top: 1px solid rgba($brand-color, 0.15);
-  padding-top: 1.8em;
-}
-
-.print-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-family: $ui-font-family;
-  font-size: 0.78em;
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  padding: 6px 14px;
-  border: 1px solid rgba($brand-color, 0.4);
-  border-radius: 3px;
-  color: $brand-color;
-  background: transparent;
-  cursor: pointer;
-  transition: all 0.18s ease;
-  flex-shrink: 0;
-
-  &:hover {
-    background: $brand-color;
-    color: #fff;
-    border-color: $brand-color;
-  }
-}
-
+// URL shown only in print (invisible on screen)
 .print-url {
-  font-family: $ui-font-family;
-  font-size: 0.75em;
-  color: $muted-text-color;
-  word-break: break-all;
-  opacity: 0.7;
+  display: none;
 }
 
 // Body text
