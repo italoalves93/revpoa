@@ -6,8 +6,6 @@
   vertical-align: super;
   line-height: 0;
   padding: 0 0.1em;
-  border: none;
-  border-radius: 0;
 
   &:hover,
   &:focus {
@@ -21,6 +19,16 @@
   margin-bottom: 4em;
   padding-top: 1.5em;
   border-top: 1px solid rgba($brand-color, 0.25);
+
+  &::before {
+    content: "Notas";
+    display: block;
+    font-family: $title-font-family;
+    font-size: 1.1em;
+    font-weight: 600;
+    color: $text-color;
+    margin-bottom: 1em;
+  }
 
   ol {
     font-family: $body-font-family;

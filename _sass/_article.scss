@@ -23,24 +23,22 @@
   }
 }
 
-// Post title — wider than body text
 .post-title {
   font-family: $title-font-family;
-  font-size: 2.4em;
+  font-size: 2.75em;
   font-weight: 600;
-  line-height: 1.18;
+  line-height: 1.15;
   max-width: 46em;
   padding: 0.2em 1em 0.4em;
   text-align: center;
   color: #1a1a1a;
 
   @media (max-width: 768px) {
-    font-size: 1.8em;
+    font-size: 2em;
     padding: 0.2em 0.75em 0.4em;
   }
 }
 
-// Post header block (meta + blurb + share)
 .post-header {
   max-width: 42rem;
   padding: 0 2em;
@@ -52,27 +50,26 @@
   }
 }
 
-.post-dateline {
+// Date · Author on one line
+.post-byline {
   font-family: $body-font-family;
-  font-size: 0.8em;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: $muted-text-color;
-  margin-bottom: 0.5em;
-}
-
-.post-authors {
-  font-family: $body-font-family;
-  font-size: 0.9em;
+  font-size: 0.85em;
   font-weight: 400;
   color: $muted-text-color;
-  margin-bottom: 1.4em;
+  margin-bottom: 1.2em;
+  text-align: center;
+
+  time { color: $muted-text-color; }
+
+  .byline-sep {
+    margin: 0 0.45em;
+    color: rgba($brand-color, 0.6);
+  }
 
   a {
     color: $brand-color;
     text-decoration: none;
-    border-bottom: 1px solid rgba($brand-color, 0.35);
+    border-bottom: 1px solid rgba($brand-color, 0.3);
     transition: border-color 0.2s ease;
 
     &:hover {
@@ -83,19 +80,19 @@
 
   .author-sep {
     margin: 0 0.3em;
-    color: $muted-text-color;
   }
 }
 
 .post-blurb {
   font-family: $title-font-family;
   font-style: italic;
-  font-size: 1.15em;
+  font-size: 1.2em;
   line-height: 1.55;
   color: #4a4644;
-  margin: 0 auto 1.6em;
-  padding-bottom: 1.4em;
-  border-bottom: 1px solid rgba($brand-color, 0.2);
+  text-align: center;
+  margin: 0 auto 1.8em;
+  padding-bottom: 1.6em;
+  border-bottom: 1px solid rgba($brand-color, 0.18);
 }
 
 // Share buttons
@@ -134,35 +131,46 @@
     width: 13px;
     height: 13px;
     fill: currentColor;
+    flex-shrink: 0;
   }
 }
 
 // Body text
-.post p {
-  text-align: left;
-  text-indent: 0;
-  margin: 1.25em 0;
-  font-size: 1em;
-  font-weight: 300;
-  line-height: 1.78;
-}
+.post-content {
+  p {
+    text-align: left;
+    margin: 1.3em 0;
+    font-size: 1.1em;
+    font-weight: 300;
+    line-height: 1.8;
+  }
 
-.post h2, .post h3 {
-  text-align: left;
-  margin-top: 2em;
+  h2, h3 {
+    text-align: left;
+    margin-top: 2em;
+  }
+
+  // Suppress WP separator hr styling
+  hr.wp-block-separator {
+    border: none;
+    border-top: 1px solid rgba($brand-color, 0.2);
+    margin: 2em auto;
+    max-width: 6em;
+  }
+
+  blockquote.wp-block-quote {
+    margin: 2em auto;
+    padding: 0.75em 1.75em;
+    border-left: 3px solid $brand-color;
+    background: rgba($brand-color, 0.04);
+    font-style: italic;
+
+    p { margin: 0.5em 0; }
+  }
 }
 
 .post a:hover {
-  background: rgba($highlight, 0.7);
-}
-
-.post-meta {
-  margin: 3em auto 0;
-  padding-top: 2em;
-  text-align: center;
-  color: $muted-text-color;
-  font-size: 0.85em;
-  border-top: 1px solid rgba($brand-color, 0.15);
+  background: rgba($highlight, 0.6);
 }
 
 .back-link {
@@ -187,18 +195,22 @@
 
 // Reference block for reviews
 .referencia-block {
-  background: $review-bg;
-  border-left: 3px solid $brand-color;
-  padding: 1em 1.4em;
-  margin: 0 auto 2em;
   max-width: 42rem;
+  padding: 0 2em;
+  margin: 0 auto 2em;
 
-  p {
-    font-family: $title-font-family;
-    font-style: italic;
-    font-size: 0.95em;
-    line-height: 1.6;
-    color: #3a3530;
-    margin: 0;
+  > div {
+    background: $review-bg;
+    border-left: 3px solid $brand-color;
+    padding: 1em 1.4em;
+
+    p {
+      font-family: $title-font-family;
+      font-style: italic;
+      font-size: 0.95em;
+      line-height: 1.6;
+      color: #3a3530;
+      margin: 0;
+    }
   }
 }
