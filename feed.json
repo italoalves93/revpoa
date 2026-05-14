@@ -23,9 +23,20 @@ layout: null
             "url": "{{ post.url | absolute_url}}",
             "date_published": "{{ post.date | date_to_xmlschema }}",
             "date_modified": "{{ post.date | date_to_xmlschema }}",
-            "author": {
-                "name": "{{ post.author }}"
-            }
+            {% if post.authors %}
+              {% assign author_names = "" %}
+              {% for slug in post.authors %}
+                {% assign a = site.data.autores[slug] %}
+                {% assign author_names = author_names | append: a.nome | append: ", " %}
+              {% endfor %}
+              {% assign author_names = author_names | remove_last: ", " %}
+              "author": { "name": {{ author_names | jsonify }} }
+            {% elsif post.author %}
+              {% assign a = site.data.autores[post.author] %}
+              "author": { "name": {{ a.nome | default: post.author | jsonify }} }
+            {% else %}
+              "author": { "name": {{ site.title | jsonify }} }
+            {% endif %}
         }{% if forloop.last == false %},{% endif %}
         {% endunless %}
     {% endfor %}

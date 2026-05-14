@@ -18,7 +18,24 @@ layout: null
           {% if post.title != "" %}
             <title>{{ post.title | xml_escape }}</title>
           {% endif %}
-          <author>{{ site.email }} ({{ site.title }})</author>
+          {% if post.authors %}
+            {% assign author_names = "" %}
+            {% for slug in post.authors %}
+              {% assign a = site.data.autores[slug] %}
+              {% assign author_names = author_names | append: a.nome | append: ", " %}
+            {% endfor %}
+            {% assign author_names = author_names | remove_last: ", " %}
+            <author>{{ author_names | xml_escape }}</author>
+          {% elsif post.author %}
+            {% assign a = site.data.autores[post.author] %}
+            {% if a %}
+              <author>{{ a.nome | xml_escape }}</author>
+            {% else %}
+              <author>{{ post.author | xml_escape }}</author>
+            {% endif %}
+          {% else %}
+            <author>{{ site.title | xml_escape }}</author>
+          {% endif %}
           <description>
             {{ post.content | xml_escape }}
           </description>
