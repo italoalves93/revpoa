@@ -1,196 +1,400 @@
+# Revista Porto Alegre — Manual de uso
+
+Site: <https://italoalves93.github.io/revpoa/>  
+Repositório: <https://github.com/italoalves93/revpoa>
+
+O site é gerado pelo **Jekyll** e publicado automaticamente pelo GitHub Actions toda vez que um `push` é feito para o branch `main`. O tempo entre o push e a publicação é de aproximadamente 1–2 minutos.
+
+---
+
+## Estrutura do repositório
+
+```
+revpoa/
+├── _posts/           ← textos da revista (.md ou .html)
+├── _data/
+│   └── autores.yml   ← cadastro de autores
+├── assets/
+│   └── YYYY/MM/      ← imagens, organizadas por ano e mês
+├── _layouts/         ← templates de página (não editar)
+├── _sass/            ← estilos (não editar)
+├── sobre.md          ← página "Sobre"
+├── expediente.md     ← página "Expediente"
+├── _data/menu.yml    ← itens do menu de navegação
+└── _config.yml       ← configurações gerais do site
+```
+
+---
+
+## Publicar um texto novo
+
+### 1. Criar o arquivo
+
+Crie um arquivo em `_posts/` com o nome no formato:
+
+```
+AAAA-MM-DD-slug-do-titulo.md
+```
+
+O **slug** é o título em minúsculas, sem acentos, com hífens no lugar de espaços. Ele vira a URL final do post.
+
+Exemplos:
+```
+_posts/2024-03-15-o-fim-da-modernidade.md
+_posts/2024-03-15-resenha-de-um-livro.md
+```
+
+### 2. Cabeçalho (front matter)
+
+Todo post começa com um bloco YAML entre `---`. Copie e adapte:
+
+```yaml
+---
+layout: post
+title: 'Título do texto'
+date: 2024-03-15
+author: slug-do-autor
+blurb: "Chamada curta do texto. Aparece na página inicial e nas redes sociais."
+permalink: /slug-do-titulo/
+---
+```
+
+| Campo | Obrigatório | Descrição |
+|---|---|---|
+| `layout` | sim | Sempre `post` para artigos, ensaios e resenhas |
+| `title` | sim | Use aspas simples se o título tiver dois-pontos ou vírgulas |
+| `date` | sim | Formato `AAAA-MM-DD` |
+| `author` | sim | Slug do autor conforme cadastrado em `_data/autores.yml` |
+| `permalink` | sim | URL final, no formato `/slug/` |
+| `blurb` | recomendado | Use sempre aspas duplas; aspas simples no interior não precisam de escape |
+| `image` | opcional | Caminho para imagem de capa (`/assets/2024/03/imagem.jpg`). Se omitido, o sistema usa a primeira imagem do texto como thumbnail nas redes sociais |
+
+#### Dois ou mais autores
+
+Substitua `author:` por `authors:` com uma lista de slugs:
+
+```yaml
+authors: [alex-da-rosa, sara-de-araujo-pessoa]
+```
+
+### 3. Conteúdo em Markdown
+
+O conteúdo começa logo após o fechamento `---` do front matter.
+
+---
+
+## Sintaxe Markdown
+
+### Parágrafos
+
+Texto separado por uma linha em branco vira parágrafos distintos:
+
+```markdown
+Primeiro parágrafo.
+
+Segundo parágrafo.
+```
+
+### Títulos
+
+```markdown
+## Subtítulo de seção
+
+### Subtítulo de subseção
+```
+
+### Ênfase
+
+```markdown
+_itálico_  ou  *itálico*
+
+**negrito**
+
+**_negrito e itálico_**
+```
+
+### Links
+
+```markdown
+[texto do link](https://exemplo.com)
+```
+
+### Citação em bloco
+
+```markdown
+> Texto citado.
+> Pode ter múltiplas linhas.
+```
+
+### Listas
+
+```markdown
+- Item um
+- Item dois
+- Item três
+
+1. Primeiro
+2. Segundo
+3. Terceiro
+```
+
+### Notas de rodapé
+
+```markdown
+Texto com nota de rodapé.[^1] Outra nota aqui.[^2]
+
+[^1]: Texto da primeira nota.
+[^2]: SOBRENOME, Nome. *Título do livro*. Editora, Ano, p. 00.
+```
+
+As notas aparecem automaticamente formatadas no final do post, com link de retorno.
+
+### Separador de seção simples
+
+```markdown
+---
+```
+
+---
+
+## Elementos que precisam de HTML
+
+Alguns recursos visuais do site não têm equivalente em Markdown puro. Insira as tags HTML diretamente no arquivo `.md` — o Jekyll processa os dois formatos juntos sem problema.
+
+---
+
+### Capitular (primeira letra ampliada)
+
+```html
+<p class="has-drop-cap">Primeiro parágrafo do texto, com a letra inicial ampliada...</p>
+```
+
+---
+
+### Separador estilizado com três pontos
+
+```html
+<hr class="wp-block-separator is-style-dots">
+```
+
+---
+
+### Imagem com legenda
+
+O Markdown padrão (`![alt](src)`) não suporta legendas. Use:
+
+```html
+<figure>
+  <img src="{{ site.baseurl }}/assets/2024/03/minha-imagem.jpg" alt="Descrição da imagem">
+  <figcaption>Legenda da imagem. © Crédito fotográfico</figcaption>
+</figure>
+```
+
+> **Importante:** sempre use `{{ site.baseurl }}/assets/...` no caminho — nunca `assets/...` sem esse prefixo, pois quebra em páginas internas.
+
+#### Variante: imagem full-width
+
+```html
+<figure class="wp-block-image alignfull">
+  <img src="{{ site.baseurl }}/assets/2024/03/imagem.jpg" alt="Descrição">
+  <figcaption>Legenda © Crédito</figcaption>
+</figure>
+```
+
+#### Variante: imagem centralizada
+
+```html
+<figure class="aligncenter">
+  <img src="{{ site.baseurl }}/assets/2024/03/imagem.jpg" alt="Descrição">
+  <figcaption>Legenda</figcaption>
+</figure>
+```
+
+---
+
+### Bloco de referência bibliográfica (resenhas)
+
+Coloque logo após o front matter, antes do texto. Exibe o livro resenhado em destaque visual:
+
+```html
+<div class="referencia-block">
+  <div>
+    <p><em>Título do Livro</em>, Nome Autor (Editora, Ano), XXX pp.</p>
+  </div>
+</div>
+```
+
+---
+
+### Citação em bloco no estilo do site
+
+O `>` do Markdown funciona, mas para o estilo visual exato:
+
+```html
+<blockquote class="wp-block-quote">
+  <p>Texto da citação.</p>
+  <cite>— Autor da citação</cite>
+</blockquote>
+```
+
+---
+
+### Bio do autor ao final do texto
+
+Convenção usada nos posts da revista:
+
+```html
+<hr class="wp-block-separator is-style-dots">
+
+<p><strong>Nome do Autor</strong> é doutor em Filosofia pela UFRGS e pesquisa...</p>
+```
+
+---
+
+## Exemplo completo de post em Markdown
+
+```markdown
+---
+layout: post
+title: 'O fim da modernidade: notas sobre o presente'
+date: 2024-03-15
+author: caroline-schmidt
+blurb: "Uma leitura do colapso das grandes narrativas a partir do cotidiano periférico."
+permalink: /o-fim-da-modernidade/
+---
+
+<figure class="wp-block-image alignfull">
+  <img src="{{ site.baseurl }}/assets/2024/03/capa.jpg" alt="Imagem de capa">
+  <figcaption>Título da obra. © Nome do fotógrafo</figcaption>
+</figure>
+
+<p class="has-drop-cap">Primeiro parágrafo do texto, com a letra capitular. O Jekyll
+processa HTML inline junto com Markdown sem nenhum problema.</p>
+
+O segundo parágrafo já é Markdown puro. Pode usar _itálico_, **negrito**,
+[links](https://exemplo.com) e notas de rodapé.[^1]
+
+## Uma seção do texto
+
+Mais conteúdo aqui.
+
+> Uma citação relevante que merece destaque.
+
+<hr class="wp-block-separator is-style-dots">
+
+Último parágrafo antes da bio.
+
+<hr class="wp-block-separator is-style-dots">
+
+<p><strong>Caroline Schmidt</strong> é estudante de História da Arte na UFRGS.</p>
+
+[^1]: SOBRENOME, Nome. *Título*. Editora, Ano, p. 00.
+```
+
+---
+
+## Imagens
+
+### Onde colocar
+
+Imagens ficam em `assets/AAAA/MM/`, seguindo o ano e mês da publicação:
+
+```
+assets/2024/03/minha-imagem.jpg
+```
+
+### Formatos e tamanhos recomendados
+
+| Tipo | Formato | Largura máx. | Peso máx. |
+|---|---|---|---|
+| Fotos | JPEG (qualidade 80–85%) | 1200 px | 500 KB |
+| Capturas de tela / gráficos | PNG | 1200 px | 500 KB |
+| Imagem de capa social | JPEG | 1200 × 630 px | 300 KB |
+
+---
+
+## Autores
+
+### Cadastrar autor novo
+
+Abra `_data/autores.yml` e adicione em ordem alfabética pelo slug:
+
+```yaml
+nome-sobrenome:
+  nome: "Nome Completo com Acentos"
+  bio: "Breve biografia. Aparece na página de autoria."
+```
+
+O slug deve ser o nome em minúsculas, sem acentos, com hífens:
+
+| Nome | Slug |
+|---|---|
+| Caroline Schmidt | `caroline-schmidt` |
+| Fredric Jameson | `fredric-jameson` |
+| György Lukács | `gyorgy-lukacs` |
+
+---
+
+## Páginas fixas (Sobre, Expediente)
+
+Edite os arquivos Markdown na raiz do repositório:
+
+```markdown
 ---
 layout: page
-title: "Hitchens"
+title: Sobre
+permalink: /sobre/
 ---
 
-An inarguably well-designed [Jekyll](http://jekyllrb.com) theme by [Pat Dryburgh](https://patdryburgh.com).
-
-![Hitchens Preview](https://raw.githubusercontent.com/patdryburgh/hitchens/master/screenshot.png)
-
-Undoubtably one of the great minds of our time, [Christopher Hitchens](https://en.wikipedia.org/wiki/Christopher_Hitchens) challenged his readers to think deeply on topics of politics, religion, war, and science. This Jekyll theme's design is inspired by the trade paperback version his book, [Arguably](https://en.wikipedia.org/wiki/Arguably), and is dedicated to his memory.
-
-## Quick Start
-
-This theme is, itself, a Jekyll blog, meaning the code base you see has everything you need to run a Jekyll powered blog!
-
-To get started quickly, follow the instructions below:
-
-1. Click the `Fork` button at the top of [the repository](https://github.com/patdryburgh/hitchens/);
-2. Go to your forked repo's `Settings` screen;
-3. Scroll down to the `GitHub Pages` section;
-4. Under `Source`, select the `Master` branch;
-5. Hit `Save`.
-6. Follow [Jekyll's instructions to configure your new Jekyll site](https://jekyllrb.com/docs/configuration/).
-
-## Manual Installation
-
-If you've already created your Jekyll site or are comfortable with the command line, you can follow [Jekyll's Quickstart instructions](https://jekyllrb.com/docs/) add this line to your Jekyll site's `Gemfile`:
-
-```ruby
-gem "hitchens-theme"
+Conteúdo em Markdown aqui.
 ```
 
-And add the following lines to your Jekyll site's `_config.yml`:
+---
+
+## Menu de navegação
+
+Edite `_data/menu.yml`:
 
 ```yaml
-theme: hitchens-theme
+- title: Início
+  url: /
+- title: Sobre
+  url: /sobre/
+- title: Expediente
+  url: /expediente/
 ```
 
-Depending on your [site's configuration](https://jekyllrb.com/docs/configuration/options/), you may also need to add:
+---
 
-```yaml
-ignore_theme_config: true
-```
-
-And then on the command line, execute:
-
-    $ bundle
-
-Or install the theme yourself as:
-
-    $ gem install hitchens-theme
-
-## Usage
-
-### Home Layout
-
-The `home` layout presents a list of articles ordered chronologically. The theme uses [Jekyll's built-in pagination](https://jekyllrb.com/docs/pagination/#enable-pagination) which can be configured in your `_config.yml` file.
-
-The masthead of the home page is derived from the `title` and `description` set in your site's `_config.yml` file.
-
-#### Navigation
-
-To include a navigation menu in your site's masthead and footer:
-
-1. Create a `_data` directory in the root of your site.
-2. Add a `menu.yml` file to the `_data` directory.
-3. Use the following format to list your menu items:
+## Fluxo completo de publicação
 
 ```
-- title: About
-  url: /about.html
-
-- title: Source
-  url: https://github.com/patdryburgh/hitchens
+1. Escrever o texto
+2. Preparar e redimensionar as imagens
+3. Copiar imagens para assets/AAAA/MM/
+4. Criar _posts/AAAA-MM-DD-slug.md com front matter correto
+5. Verificar: o slug do autor existe em _data/autores.yml?
+6. git add _posts/... assets/...
+   git commit -m "Publica: Título do texto"
+   git push origin main
+7. Aguardar ~1 min → texto no ar
 ```
 
-Be sure to start your `url`s with a `/`.
+---
 
-#### Pagination
+## Armadilhas frequentes
 
-To paginate your posts, add the following line to your site's `Gemfile`:
+**Post não aparece no site**  
+→ Confirme que o nome do arquivo segue o padrão `AAAA-MM-DD-slug.md` e que o front matter abre e fecha com `---` em linhas próprias.
 
-```
-gem "jekyll-paginate"
-```
+**Imagem aparece com ponto de interrogação**  
+→ Verifique se o `src` usa `{{ site.baseurl }}/assets/...` e se o arquivo existe exatamente nesse caminho (atenção a maiúsculas/minúsculas e acentos no nome do arquivo).
 
-Then, add the following lines to your site's `_config.yml` file:
+**Autor aparece como slug em vez do nome**  
+→ O slug no campo `author:` não bate com nenhuma chave em `_data/autores.yml`. Confira a ortografia.
 
-```
-plugins:
-  - jekyll-paginate
+**`blurb` com aspas simples no texto quebra o YAML**  
+→ Declare o blurb sempre entre aspas duplas: `blurb: "O autor diz que 'isso' é importante."`.
 
-paginate: 20
-paginate_path: "/page/:num/"
-```
-
-You can set the `paginate` and `paginate_path` settings to whatever best suits you.
-
-#### Excerpts
-
-To show [excerpts](https://jekyllrb.com/docs/posts/#post-excerpts) of your blog posts on the home page, add the following settings to your site's `_config.yml` file:
-
-```
-show_excerpts: true
-```
-
-By default, excerpts that have more than 140 characters will be truncated to 20 words. In order to override the number of words you'd like to show for your excerpts, add the following setting to your site's `_config.yml` file:
-
-```
-excerpt_length: 20
-```
-
-To disable excerpt truncation entirely, simply set `excerpt_length` to `0` in your site's `_config.yml` file, like so:
-
-```
-excerpt_length: 0
-```
-
-If you do this, the theme will still respect Jekyll's `excerpt_separator` feature as [described in the Jekyll documentation](https://jekyllrb.com/docs/posts/#post-excerpts).
-
-
-#### Title-less Posts
-
-If you want to publish posts that don't have a title, add the following setting to the [front matter](https://jekyllrb.com/docs/frontmatter/) of the post:
-
-```
-title: ""
-```
-
-When you do this, the home page will display a truncated [excerpt](https://jekyllrb.com/docs/posts/#post-excerpts) of the first paragraph of your post.
-
-Note that setting `excerpt_length` in your site's `_config.yml` file will set the length of _all_ excerpts, regardless of whether the post has a title or not. For posts with a title, the excerpt will appear under the title and slightly lighter. For title-less posts, the excerpt will appear as if it were a title.
-
-### Post Layout
-
-A sparsely decorated layout designed to present long-form writing in a manner that's pleasing to read.
-
-To use the post layout, add the following to your post's [front matter](https://jekyllrb.com/docs/frontmatter/):
-
-```
-layout: post
-```
-
-### Icons
-
-The [JSON Feed spec](https://jsonfeed.org/version/1) states that feeds should include an icon. To add your icon, add the following line in your site's `_config.yml` file:
-
-```
-feed_icon: /assets/images/icon-512.png
-```
-
-Then, replace the `/assets/images/icon-512.png` file with your own image.
-
-### Credits
-
-The theme credits that appear at the bottom of each page can be turned off by including the following line in your site's `_config.yml` file:
-
-```
-hide_credits: true
-```
-
-### Search
-
-The theme uses a [custom DuckDuckGo Search Form](https://ddg.patdryburgh.com) that can be turned off by including the following line in your site's `_config.yml` file: 
-
-```
-hide_search: true
-```
-
-### Font
-
-I spent a good amount of time trying to identify the font used on the front cover of the trade paperback version of Arguably. Unfortunately, I failed to accurately identify the exact font used. If you happen to know what font is used on the book cover, I would appreciate you [letting me know](mailto:hello@patdryburgh.com) :)
-
-The theme includes a version of [EB Garamond](https://fonts.google.com/specimen/EB+Garamond), designed by Georg Duffner and Octavio Pardo. It's the closest alternative I could come up with that included an open license to include with the theme.
-
-A [copy of the license](https://github.com/patdryburgh/hitchens/blob/master/assets/fonts/OFL.txt) has been included in the `assets` folder and must be included with any distributions of this theme that include the EB Garamond font files.
-
-## Contributing & Requesting Features
-
-Bug reports, feature requests, and pull requests are welcome on GitHub at [https://github.com/patdryburgh/hitchens](https://github.com/patdryburgh/hitchens).
-
-This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
-
-## Development
-
-To set up your environment to develop this theme, run `bundle install`.
-
-The theme is setup just like a normal Jekyll site. To test the theme, run `bundle exec jekyll serve` and open your browser at `http://localhost:4000`. This starts a Jekyll server using the theme. Add pages, documents, data, etc. like normal to test the theme's contents. As you make modifications to the theme and to your content, your site will regenerate and you should see the changes in the browser after a refresh, just like normal.
-
-## License
-
-The code for this theme is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
-
-The font, EB Garamond, is Copyright 2017 The EB Garamond Project Authors and licensed under the [SIL Open Font License Version 1.1](https://github.com/patdryburgh/hitchens/blob/master/assets/fonts/OFL.txt).
-
-Graphics are released to the public domain.
+**Título com dois-pontos quebra o YAML**  
+→ Envolva em aspas simples: `title: 'Software Negro: entre revolução e repressão'`.
