@@ -185,13 +185,23 @@ figcaption {
   list-style: none;
   padding: 0;
   margin: 0;
+
+  &:hover .autor-post-card { opacity: .6; }
 }
 
 .autor-post-item {
   border-bottom: 1px solid rgba($brand-color, 0.1);
-  padding: 1.2em 0;
 
   &:last-child { border-bottom: none; }
+}
+
+.autor-post-card {
+  display: block;
+  text-decoration: none;
+  padding: 1.2em 0;
+  transition: opacity .125s ease-in-out;
+
+  &:hover, &:focus { opacity: 1 !important; }
 }
 
 .autor-post-title {
@@ -199,16 +209,14 @@ figcaption {
   font-size: 1.15em;
   font-weight: 600;
   color: $text-color;
-  text-decoration: none;
   display: block;
   margin-bottom: 0.2em;
   line-height: 1.3;
-
-  &:hover { color: $brand-color; background: none; }
 }
 
 .autor-post-date {
   display: block;
+  text-align: left;
   font-family: $ui-font-family;
   font-size: 0.82em;
   color: $muted-text-color;
@@ -220,6 +228,7 @@ figcaption {
   font-style: italic;
   font-size: 0.9em;
   color: #555;
+  display: block;
   margin: 0.3em 0 0;
   line-height: 1.5;
 }

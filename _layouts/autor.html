@@ -25,13 +25,15 @@ layout: default
       <ul class="autor-post-list">
         {% for post in all_author_posts %}
           <li class="autor-post-item">
-            <a href="{{ post.url | relative_url }}" class="autor-post-title">{{ post.title }}</a>
-            {% assign post_date = post.date | date: "%-d de %B de %Y" %}
-            {% assign post_date = post_date | replace: "January", "janeiro" | replace: "February", "fevereiro" | replace: "March", "março" | replace: "April", "abril" | replace: "May", "maio" | replace: "June", "junho" | replace: "July", "julho" | replace: "August", "agosto" | replace: "September", "setembro" | replace: "October", "outubro" | replace: "November", "novembro" | replace: "December", "dezembro" %}
-            <time class="autor-post-date post-byline">{{ post_date }}</time>
-            {% if post.blurb %}
-              <p class="autor-post-blurb">{{ post.blurb }}</p>
-            {% endif %}
+            <a href="{{ post.url | relative_url }}" class="autor-post-card">
+              {% assign post_date = post.date | date: "%-d de %B de %Y" %}
+              {% assign post_date = post_date | replace: "January", "janeiro" | replace: "February", "fevereiro" | replace: "March", "março" | replace: "April", "abril" | replace: "May", "maio" | replace: "June", "junho" | replace: "July", "julho" | replace: "August", "agosto" | replace: "September", "setembro" | replace: "October", "outubro" | replace: "November", "novembro" | replace: "December", "dezembro" %}
+              <span class="autor-post-title">{{ post.title }}</span>
+              <time class="autor-post-date">{{ post_date }}</time>
+              {% if post.blurb %}
+                <span class="autor-post-blurb">{{ post.blurb }}</span>
+              {% endif %}
+            </a>
           </li>
         {% endfor %}
       </ul>
