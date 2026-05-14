@@ -255,33 +255,31 @@
 <div class="toast hide" id="toast"></div>
 
 <script>
-// ─────────────────────────────────────────────────────────────
-//  Config
-// ─────────────────────────────────────────────────────────────
-const REPO  = 'italoalves93/revpoa';
+const REPO   = 'italoalves93/revpoa';
 const BRANCH = 'main';
-const API   = 'https://api.github.com';
+const API    = 'https://api.github.com';
 
-let TOKEN = '';
-let easyMDE = null;
-let uploadedImagePath = null;
-let authors = {};
+let TOKEN          = '';
+let easyMDE        = null;
+let uploadedPath   = null;
+let authors        = {};
 let permalinkEdited = false;
 
-// ─────────────────────────────────────────────────────────────
-//  Utilities
-// ─────────────────────────────────────────────────────────────
-function show(id)  { document.getElementById(id).hidden = false; }
-function hide(id)  { document.getElementById(id).hidden = true; }
-function val(id)   { return document.getElementById(id).value.trim(); }
-function set(id,v) { document.getElementById(id).value = v; }
-function setText(id,v) { document.getElementById(id).textContent = v; }
+// ── Helpers ──────────────────────────────────────────────────
+const $  = id => document.getElementById(id);
+const val = id => $(id).value.trim();
+const set = (id, v) => { $(id).value = v; };
+const txt = (id, v) => { $(id).textContent = v; };
 
-function toast(msg, type='') {
-  const t = document.getElementById('toast');
+function show(id) { $(id).hidden = false; }
+function hide(id) { $(id).hidden = true;  }
+
+function toast(msg, type = '') {
+  const t = $('toast');
   t.textContent = msg;
   t.className = 'toast' + (type ? ' ' + type : '');
-  setTimeout(() => t.classList.add('hide'), 4000);
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.classList.add('hide'), 5000);
 }
 
 function utf8ToB64(str) {
@@ -291,86 +289,89 @@ function utf8ToB64(str) {
   return btoa(bin);
 }
 
-function titleToSlug(title) {
-  return title
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^\w\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    .replace(/^-+|-+$/g, '');
+function b64ToUtf8(b64) {
+  const bin = atob(b64.replace(/\n/g, ''));
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return new TextDecoder().decode(bytes);
 }
 
-function todayISO() {
-  return new Date().toISOString().slice(0, 10);
+function titleToSlug(t) {
+  return t.toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^\w\s-]/g, '').replace(/\s+/g, '-')
+    .replace(/-+/g, '-').replace(/^-+|-+$/g, '');
 }
 
-// ─────────────────────────────────────────────────────────────
-//  GitHub API
-// ─────────────────────────────────────────────────────────────
+function todayISO() { return new Date().toISOString().slice(0, 10); }
+
+// ── GitHub API ────────────────────────────────────────────────
 async function ghFetch(method, path, body) {
   const resp = await fetch(`${API}/repos/${REPO}/${path}`, {
     method,
     headers: {
-      'Authorization': `token ${TOKEN}`,
+      'Authorization': `Bearer ${TOKEN}`,
       'Accept': 'application/vnd.github.v3+json',
       'Content-Type': 'application/json',
     },
     body: body ? JSON.stringify(body) : undefined,
   });
-  const json = await resp.json().catch(() => ({}));
-  if (!resp.ok) throw new Error(json.message || `HTTP ${resp.status}`);
-  return json;
+  if (!resp.ok) {
+    const j = await resp.json().catch(() => ({}));
+    throw new Error(j.message || `HTTP ${resp.status}`);
+  }
+  return resp.json();
+}
+
+async function validateToken(pat) {
+  const resp = await fetch(`${API}/user`, {
+    headers: {
+      'Authorization': `Bearer ${pat}`,
+      'Accept': 'application/vnd.github.v3+json',
+    },
+  });
+  if (!resp.ok) throw new Error('Token inválido ou sem permissão.');
+  return resp.json();
 }
 
 async function getFileSHA(path) {
-  try {
-    const r = await ghFetch('GET', `contents/${path}`);
-    return r.sha;
-  } catch { return null; }
+  try { return (await ghFetch('GET', `contents/${path}`)).sha; }
+  catch { return null; }
 }
 
 async function commitFile(filePath, content, message, isBinary = false) {
   const sha = await getFileSHA(filePath);
-  const b64 = isBinary ? content : utf8ToB64(content);
   return ghFetch('PUT', `contents/${filePath}`, {
-    message,
-    content: b64,
-    branch: BRANCH,
+    message, branch: BRANCH,
+    content: isBinary ? content : utf8ToB64(content),
     ...(sha ? { sha } : {}),
   });
 }
 
-// ─────────────────────────────────────────────────────────────
-//  Login
-// ─────────────────────────────────────────────────────────────
+// ── Login ─────────────────────────────────────────────────────
 async function doLogin() {
-  const pat = document.getElementById('pat-input').value.trim();
-  if (!pat) return;
-  const errEl = document.getElementById('login-error');
-  const btn   = document.getElementById('login-btn');
-  errEl.hidden = true;
+  const pat = $('pat-input').value.trim();
+  if (!pat) { setLoginError('Cole o token antes de continuar.'); return; }
+
+  const btn = $('login-btn');
   btn.disabled = true;
   btn.textContent = 'Verificando…';
+  clearLoginError();
 
   try {
-    const resp = await fetch(`${API}/user`, {
-      headers: { 'Authorization': `token ${pat}`, 'Accept': 'application/vnd.github.v3+json' }
-    });
-    if (!resp.ok) throw new Error('Token inválido ou sem permissão de escrita.');
+    await validateToken(pat);
     TOKEN = pat;
-    if (document.getElementById('remember-token').checked) {
-      localStorage.setItem('revpoa_token', pat);
-    }
+    if ($('remember-token').checked) localStorage.setItem('revpoa_token', pat);
     await initEditor();
-  } catch(e) {
-    errEl.textContent = e.message;
-    errEl.hidden = false;
+  } catch (e) {
+    setLoginError(e.message);
     btn.disabled = false;
     btn.textContent = 'Entrar';
   }
 }
+
+function setLoginError(msg) { const e = $('login-error'); e.textContent = msg; e.hidden = false; }
+function clearLoginError()  { $('login-error').hidden = true; }
 
 function logout() {
   localStorage.removeItem('revpoa_token');
@@ -378,221 +379,169 @@ function logout() {
   location.reload();
 }
 
-// ─────────────────────────────────────────────────────────────
-//  Init editor
-// ─────────────────────────────────────────────────────────────
+// ── Init editor ───────────────────────────────────────────────
 async function initEditor() {
   hide('login-screen');
   show('editor-screen');
-
-  // Default date
   set('f-date', todayISO());
 
-  // Load authors
   await loadAuthors();
 
-  // Load draft if any
+  // Init EasyMDE only once
+  if (!easyMDE) {
+    easyMDE = new EasyMDE({
+      element: $('editor-content'),
+      autofocus: false,
+      spellChecker: false,
+      autosave: { enabled: false },
+      placeholder: 'Escreva o texto aqui em Markdown…',
+      toolbar: [
+        'bold', 'italic', '|',
+        'heading-2', 'heading-3', '|',
+        'quote', 'unordered-list', 'ordered-list', '|',
+        'link',
+        { name: 'image-upload',   action: triggerImageUpload, className: 'fa fa-image',       title: 'Inserir imagem' },
+        '|',
+        { name: 'capitular',      action: insertCapitular,    className: 'fa fa-font',        title: 'Capitular' },
+        { name: 'sep-dots',       action: insertSepDots,      className: 'fa fa-ellipsis-h',  title: 'Separador ···' },
+        '|',
+        'preview', 'side-by-side', 'fullscreen',
+      ],
+    });
+    easyMDE.codemirror.on('change', updateFMPreview);
+    ['f-title','f-author','f-date','f-permalink','f-blurb'].forEach(id =>
+      $(id).addEventListener('input', updateFMPreview)
+    );
+  }
+
+  // Load draft AFTER easyMDE is ready
   loadDraft();
-
-  // Init EasyMDE
-  easyMDE = new EasyMDE({
-    element: document.getElementById('editor-content'),
-    autofocus: false,
-    spellChecker: false,
-    autosave: { enabled: false },
-    placeholder: 'Escreva o texto aqui em Markdown…',
-    toolbar: [
-      'bold', 'italic', '|',
-      'heading-2', 'heading-3', '|',
-      'quote', 'unordered-list', 'ordered-list', '|',
-      'link',
-      {
-        name: 'image-upload',
-        action: triggerImageUpload,
-        className: 'fa fa-image',
-        title: 'Inserir imagem',
-      },
-      '|',
-      {
-        name: 'capitular',
-        action: insertCapitular,
-        className: 'fa fa-font',
-        title: 'Capitular (primeiro parágrafo)',
-      },
-      {
-        name: 'separator-dots',
-        action: insertSeparatorDots,
-        className: 'fa fa-ellipsis-h',
-        title: 'Separador ···',
-      },
-      '|',
-      'preview', 'side-by-side', 'fullscreen',
-    ],
-  });
-
-  // Update front matter preview on any change
-  easyMDE.codemirror.on('change', updateFMPreview);
-  ['f-title','f-author','f-date','f-permalink','f-blurb'].forEach(id => {
-    document.getElementById(id).addEventListener('input', updateFMPreview);
-  });
   updateFMPreview();
 }
 
-// ─────────────────────────────────────────────────────────────
-//  Authors
-// ─────────────────────────────────────────────────────────────
+// ── Authors ───────────────────────────────────────────────────
 async function loadAuthors() {
   try {
     const r = await ghFetch('GET', 'contents/_data/autores.yml');
-    const yaml = new TextDecoder().decode(Uint8Array.from(atob(r.content.replace(/\n/g,'')), c => c.charCodeAt(0)));
-    authors = jsyaml.load(yaml) || {};
-    const sel = document.getElementById('f-author');
+    authors = jsyaml.load(b64ToUtf8(r.content)) || {};
+    const sel = $('f-author');
     sel.innerHTML = '<option value="">— selecione —</option>';
     Object.entries(authors).forEach(([slug, data]) => {
-      const opt = document.createElement('option');
-      opt.value = slug;
-      opt.textContent = data.nome || slug;
-      sel.appendChild(opt);
+      const o = document.createElement('option');
+      o.value = slug;
+      o.textContent = (data && data.nome) ? data.nome : slug;
+      sel.appendChild(o);
     });
-  } catch(e) {
-    toast('Não foi possível carregar autores: ' + e.message, 'err');
+  } catch (e) {
+    toast('Erro ao carregar autores: ' + e.message, 'err');
   }
 }
 
-// ─────────────────────────────────────────────────────────────
-//  Title → permalink auto-generation
-// ─────────────────────────────────────────────────────────────
+// ── Permalink ─────────────────────────────────────────────────
 function onTitleInput() {
   if (!permalinkEdited) {
     const slug = titleToSlug(val('f-title'));
     set('f-permalink', slug);
-    setText('permalink-display', slug || 'meu-texto');
+    txt('permalink-display', slug || 'meu-texto');
   }
   updateFMPreview();
 }
 
 function onPermalinkInput() {
   permalinkEdited = true;
-  const v = val('f-permalink');
-  setText('permalink-display', v || 'meu-texto');
+  txt('permalink-display', val('f-permalink') || 'meu-texto');
   updateFMPreview();
 }
 
-// ─────────────────────────────────────────────────────────────
-//  Front matter preview
-// ─────────────────────────────────────────────────────────────
+// ── Front matter ──────────────────────────────────────────────
 function buildFrontMatter() {
-  const title  = val('f-title');
-  const date   = val('f-date');
-  const author = val('f-author');
+  const title     = val('f-title');
+  const date      = val('f-date');
+  const author    = val('f-author');
   const permalink = val('f-permalink');
-  const blurb  = val('f-blurb');
-
-  let fm = `---\nlayout: post\n`;
+  const blurb     = val('f-blurb');
+  let fm = '---\nlayout: post\n';
   fm += `title: '${title.replace(/'/g, "\\'")}'\n`;
   fm += `date: ${date}\n`;
-  if (author) fm += `author: ${author}\n`;
-  if (blurb)  fm += `blurb: "${blurb.replace(/"/g, '\\"')}"\n`;
+  if (author)    fm += `author: ${author}\n`;
+  if (blurb)     fm += `blurb: "${blurb.replace(/"/g, '\\"')}"\n`;
   if (permalink) fm += `permalink: /${permalink}/\n`;
-  fm += `---\n`;
+  fm += '---\n';
   return fm;
 }
 
 function updateFMPreview() {
-  document.getElementById('fm-preview').textContent = buildFrontMatter();
+  $('fm-preview').textContent = buildFrontMatter();
 }
 
-// ─────────────────────────────────────────────────────────────
-//  Image upload
-// ─────────────────────────────────────────────────────────────
-function triggerImageUpload() {
-  document.getElementById('f-image-file').click();
-}
+// ── Images ────────────────────────────────────────────────────
+function triggerImageUpload() { $('f-image-file').click(); }
 
 async function onImageSelected() {
-  const file = document.getElementById('f-image-file').files[0];
+  const file = $('f-image-file').files[0];
   if (!file) return;
-
-  const statusEl = document.getElementById('upload-status');
-  statusEl.textContent = 'Enviando…';
-
+  const st = $('upload-status');
+  st.textContent = 'Enviando…';
   try {
     const path = await uploadImageFile(file);
-    uploadedImagePath = path;
-    statusEl.textContent = '';
-    document.getElementById('uploaded-path').textContent = path;
-
-    // Show preview
+    uploadedPath = path;
+    st.textContent = '';
+    $('uploaded-path').textContent = path;
     const reader = new FileReader();
     reader.onload = e => {
-      document.getElementById('img-preview-img').src = e.target.result;
-      document.getElementById('img-preview').hidden = false;
+      $('img-preview-img').src = e.target.result;
+      $('img-preview').hidden = false;
     };
     reader.readAsDataURL(file);
-
     toast('Imagem enviada: ' + file.name, 'ok');
-  } catch(e) {
-    statusEl.textContent = 'Erro: ' + e.message;
+  } catch (e) {
+    st.textContent = 'Erro: ' + e.message;
     toast('Falha no upload: ' + e.message, 'err');
   }
 }
 
 async function uploadImageFile(file) {
-  const date = new Date();
-  const yr = date.getFullYear();
-  const mo = String(date.getMonth() + 1).padStart(2, '0');
-  const cleanName = file.name.replace(/\s+/g, '-');
-  const repoPath = `assets/${yr}/${mo}/${cleanName}`;
-
-  const arrayBuf = await file.arrayBuffer();
-  const bytes = new Uint8Array(arrayBuf);
+  const d = new Date();
+  const yr = d.getFullYear();
+  const mo = String(d.getMonth() + 1).padStart(2, '0');
+  const name = file.name.replace(/\s+/g, '-');
+  const repoPath = `assets/${yr}/${mo}/${name}`;
+  const buf = await file.arrayBuffer();
+  const bytes = new Uint8Array(buf);
   let bin = '';
   bytes.forEach(b => bin += String.fromCharCode(b));
-  const b64 = btoa(bin);
-
-  await commitFile(repoPath, b64, `Upload imagem: ${cleanName}`, true);
-  return `/assets/${yr}/${mo}/${cleanName}`;
+  await commitFile(repoPath, btoa(bin), `Upload: ${name}`, true);
+  return `/assets/${yr}/${mo}/${name}`;
 }
 
 function insertImageIntoEditor() {
-  if (!uploadedImagePath || !easyMDE) return;
-  const html = `\n<figure class="wp-block-image alignfull">\n  <img src="{{ site.baseurl }}${uploadedImagePath}" alt="">\n  <figcaption>Legenda © Crédito</figcaption>\n</figure>\n`;
+  if (!uploadedPath || !easyMDE) return;
+  const html = `\n<figure class="wp-block-image alignfull">\n  <img src="{{ site.baseurl }}${uploadedPath}" alt="">\n  <figcaption>Legenda © Crédito</figcaption>\n</figure>\n`;
   const cm = easyMDE.codemirror;
-  const cursor = cm.getCursor();
-  cm.replaceRange(html, cursor);
+  cm.replaceRange(html, cm.getCursor());
   cm.focus();
 }
 
-// ─────────────────────────────────────────────────────────────
-//  Custom toolbar actions
-// ─────────────────────────────────────────────────────────────
+// ── Custom toolbar ────────────────────────────────────────────
 function insertCapitular() {
   const cm = easyMDE.codemirror;
-  const sel = cm.getSelection();
-  const text = sel || 'Primeiro parágrafo do texto…';
-  cm.replaceSelection(`<p class="has-drop-cap">${text}</p>`);
+  const sel = cm.getSelection() || 'Primeiro parágrafo do texto…';
+  cm.replaceSelection(`<p class="has-drop-cap">${sel}</p>`);
 }
 
-function insertSeparatorDots() {
+function insertSepDots() {
   const cm = easyMDE.codemirror;
-  const cursor = cm.getCursor();
-  cm.replaceRange('\n<hr class="wp-block-separator is-style-dots">\n', cursor);
+  cm.replaceRange('\n<hr class="wp-block-separator is-style-dots">\n', cm.getCursor());
 }
 
-// ─────────────────────────────────────────────────────────────
-//  Draft (localStorage)
-// ─────────────────────────────────────────────────────────────
+// ── Draft ─────────────────────────────────────────────────────
 function saveDraft() {
-  const draft = {
-    title: val('f-title'),
-    author: val('f-author'),
-    date: val('f-date'),
-    permalink: val('f-permalink'),
-    blurb: val('f-blurb'),
-    content: easyMDE ? easyMDE.value() : '',
-  };
-  localStorage.setItem('revpoa_draft', JSON.stringify(draft));
-  toast('Rascunho salvo no navegador.');
+  localStorage.setItem('revpoa_draft', JSON.stringify({
+    title: val('f-title'), author: val('f-author'),
+    date: val('f-date'),   permalink: val('f-permalink'),
+    blurb: val('f-blurb'), content: easyMDE ? easyMDE.value() : '',
+  }));
+  toast('Rascunho salvo.');
 }
 
 function loadDraft() {
@@ -606,63 +555,52 @@ function loadDraft() {
     if (d.permalink) { set('f-permalink', d.permalink); permalinkEdited = true; }
     if (d.blurb)     set('f-blurb', d.blurb);
     if (d.content && easyMDE) easyMDE.value(d.content);
-    onTitleInput();
-    setText('topbar-status', 'Rascunho carregado');
-    setTimeout(() => setText('topbar-status', ''), 3000);
+    if (d.title)     onTitleInput();
+    txt('topbar-status', 'Rascunho carregado');
+    setTimeout(() => txt('topbar-status', ''), 3000);
   } catch {}
 }
 
-// ─────────────────────────────────────────────────────────────
-//  Publish
-// ─────────────────────────────────────────────────────────────
+// ── Publish ───────────────────────────────────────────────────
 async function publishPost() {
-  const title = val('f-title');
-  const date  = val('f-date');
-  const author = val('f-author');
-  const permalink = val('f-permalink');
-
-  // Validate
+  const title = val('f-title'), date = val('f-date'),
+        author = val('f-author'), permalink = val('f-permalink');
   if (!title)     return toast('Preencha o título.', 'err');
   if (!date)      return toast('Preencha a data.', 'err');
   if (!author)    return toast('Selecione o autor.', 'err');
   if (!permalink) return toast('Preencha o permalink.', 'err');
 
-  const btn = document.getElementById('publish-btn');
+  const btn = $('publish-btn');
   btn.disabled = true;
   btn.textContent = 'Publicando…';
-  setText('topbar-status', '');
 
   try {
-    const fm = buildFrontMatter();
-    const body = easyMDE ? easyMDE.value() : '';
-    const fullContent = fm + '\n' + body;
-
-    const dateSlug = date.replace(/-/g, '-');
-    const fileName = `_posts/${dateSlug}-${permalink}.md`;
-
-    await commitFile(fileName, fullContent, `Publica: ${title}`);
-
+    const content  = buildFrontMatter() + '\n' + (easyMDE ? easyMDE.value() : '');
+    const fileName = `_posts/${date}-${permalink}.md`;
+    await commitFile(fileName, content, `Publica: ${title}`);
     localStorage.removeItem('revpoa_draft');
-    toast(`"${title}" publicado com sucesso!`, 'ok');
-    setText('topbar-status', `✓ Publicado: ${fileName}`);
-  } catch(e) {
+    toast(`"${title}" publicado!`, 'ok');
+    txt('topbar-status', `✓ ${fileName}`);
+  } catch (e) {
     toast('Erro ao publicar: ' + e.message, 'err');
   } finally {
     btn.disabled = false;
-    btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M2 12l10-9 10 9h-3v9H5v-9H2z"/></svg> Publicar`;
+    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M2 12l10-9 10 9h-3v9H5v-9H2z"/></svg> Publicar';
   }
 }
 
-// ─────────────────────────────────────────────────────────────
-//  Boot
-// ─────────────────────────────────────────────────────────────
+// ── Boot ──────────────────────────────────────────────────────
 (function boot() {
   const saved = localStorage.getItem('revpoa_token');
-  if (saved) {
-    TOKEN = saved;
-    document.getElementById('pat-input').value = saved;
-    initEditor().catch(() => { TOKEN = ''; });
-  }
+  if (!saved) return;
+  $('pat-input').value = saved;
+  // Silently validate before entering the editor
+  validateToken(saved)
+    .then(() => { TOKEN = saved; return initEditor(); })
+    .catch(() => {
+      localStorage.removeItem('revpoa_token');
+      $('pat-input').value = '';
+    });
 })();
 </script>
 
