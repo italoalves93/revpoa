@@ -5,21 +5,21 @@
       <p class="post-link__meta">
         {% assign pub_date = post.date | date: "%-d de %B de %Y" %}
         {% assign pub_date = pub_date | replace: "January","janeiro" | replace: "February","fevereiro" | replace: "March","março" | replace: "April","abril" | replace: "May","maio" | replace: "June","junho" | replace: "July","julho" | replace: "August","agosto" | replace: "September","setembro" | replace: "October","outubro" | replace: "November","novembro" | replace: "December","dezembro" %}
-        <span class="post-link__date">{{ pub_date }}</span>
         {% assign author_slug = post.author %}
         {% assign author_data = site.data.autores[author_slug] %}
         {% if author_data %}
-          <span class="post-link__sep">&middot;</span>
           <span class="post-link__author">{{ author_data.nome }}</span>
-        {% elsif post.authors %}
           <span class="post-link__sep">&middot;</span>
+        {% elsif post.authors %}
           <span class="post-link__author">
             {% for slug in post.authors %}
               {% assign a = site.data.autores[slug] %}
               {% if a %}{{ a.nome }}{% else %}{{ slug }}{% endif %}{% unless forloop.last %} &amp; {% endunless %}
             {% endfor %}
           </span>
+          <span class="post-link__sep">&middot;</span>
         {% endif %}
+        <span class="post-link__date">{{ pub_date }}</span>
       </p>
       {% if post.blurb %}
         <p class="post-link__blurb">{{ post.blurb }}</p>
