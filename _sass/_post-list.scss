@@ -29,21 +29,17 @@
 }
 
 .post-link {
+  color: $text-color;
   display: block;
   text-align: center;
+  text-decoration: none;
   padding: .5em 0;
   transition: opacity .125s ease-in-out;
 
   &:hover,
-  &:focus-within {
+  &:focus {
     opacity: 1 !important;
   }
-}
-
-.post-link__link {
-  color: $text-color;
-  display: block;
-  text-decoration: none;
 }
 
 .post-link__heading {
@@ -76,22 +72,8 @@
   color: rgba($muted-text-color, 0.5);
 }
 
-.post-link__author-link {
+.post-link__author {
   color: $muted-text-color;
-  text-decoration: none;
-  border-bottom: 1px solid rgba($muted-text-color, 0.3);
-  transition: color 0.2s ease, border-color 0.2s ease;
-
-  &:hover {
-    color: $brand-color;
-    border-color: $brand-color;
-    background: none;
-  }
-}
-
-.post-link__blurb-link {
-  display: block;
-  text-decoration: none;
 }
 
 .post-link__blurb {

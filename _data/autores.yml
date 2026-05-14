@@ -1,3 +1,6 @@
+alex-da-rosa:
+  nome: "Alex da Rosa"
+
 alex-da-rosa-e-sara-de-araujo-pessoa:
   nome: "Alex da Rosa e Sara de Araújo Pessoa"
 
@@ -66,6 +69,9 @@ os-editores:
 
 rafael-saldanha:
   nome: "Rafael Saldanha"
+
+sara-de-araujo-pessoa:
+  nome: "Sara de Araújo Pessoa"
 
 rubens-akira-kuana:
   nome: "Rubens Akira Kuana"
