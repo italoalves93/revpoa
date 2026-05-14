@@ -14,10 +14,8 @@ layout: default
     {% assign pub_date = pub_date | replace: "January","janeiro" | replace: "February","fevereiro" | replace: "March","março" | replace: "April","abril" | replace: "May","maio" | replace: "June","junho" | replace: "July","julho" | replace: "August","agosto" | replace: "September","setembro" | replace: "October","outubro" | replace: "November","novembro" | replace: "December","dezembro" %}
 
     <p class="post-byline">
-      <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ pub_date }}</time>
       {% assign authors_list = page.authors | default: page.author %}
       {% if authors_list %}
-        <span class="byline-sep">&middot;</span>
         <span itemprop="author">
         {% if page.authors %}
           {% for author_slug in page.authors %}
@@ -39,7 +37,9 @@ layout: default
           {% endif %}
         {% endif %}
         </span>
+        <span class="byline-sep">&middot;</span>
       {% endif %}
+      <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ pub_date }}</time>
     </p>
 
     {% if page.blurb %}
