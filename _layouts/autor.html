@@ -2,12 +2,6 @@
 layout: default
 ---
 
-{% if site.data.menu %}
-  {% include menu.html %}
-{% else %}
-  {% include back-link.html %}
-{% endif %}
-
 {% assign slug = page.autor_slug %}
 {% assign autor = site.data.autores[slug] %}
 
@@ -28,15 +22,15 @@ layout: default
     {% assign all_author_posts = author_posts | concat: author_posts_multi | sort: "date" | reverse %}
 
     {% if all_author_posts.size > 0 %}
-      <ul style="list-style: none; padding: 0; margin: 0;">
+      <ul class="autor-post-list">
         {% for post in all_author_posts %}
-          <li style="border-bottom: 1px solid rgba(139,115,85,0.15); padding: 1.2em 0;">
-            <a href="{{ post.url | relative_url }}" style="font-family: 'Lora', serif; font-size: 1.15em; font-weight: 600; color: #2c2c2c; text-decoration: none; display: block; margin-bottom: 0.25em; line-height: 1.3;">{{ post.title }}</a>
+          <li class="autor-post-item">
+            <a href="{{ post.url | relative_url }}" class="autor-post-title">{{ post.title }}</a>
             {% assign post_date = post.date | date: "%-d de %B de %Y" %}
             {% assign post_date = post_date | replace: "January", "janeiro" | replace: "February", "fevereiro" | replace: "March", "março" | replace: "April", "abril" | replace: "May", "maio" | replace: "June", "junho" | replace: "July", "julho" | replace: "August", "agosto" | replace: "September", "setembro" | replace: "October", "outubro" | replace: "November", "novembro" | replace: "December", "dezembro" %}
-            <span style="font-family: 'DM Sans', sans-serif; font-size: 0.8em; color: #8b7355; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase;">{{ post_date }}</span>
+            <time class="autor-post-date post-byline">{{ post_date }}</time>
             {% if post.blurb %}
-              <p style="font-family: 'Lora', serif; font-style: italic; font-size: 0.9em; color: #555; margin: 0.4em 0 0; line-height: 1.5;">{{ post.blurb }}</p>
+              <p class="autor-post-blurb">{{ post.blurb }}</p>
             {% endif %}
           </li>
         {% endfor %}

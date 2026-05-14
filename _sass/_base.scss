@@ -4,7 +4,7 @@ body {
   font-family: $body-font-family;
   font-size: 1.0625em;
   font-weight: 300;
-  line-height: 1.7;
+  line-height: 1.6;
   margin: 0;
   padding: 0;
 }
@@ -143,4 +143,83 @@ figcaption {
   text-align: center;
   font-weight: 600;
   color: $text-color;
+}
+
+// ── Site footer ───────────────────────────────────────────────────────────────
+.site-footer {
+  text-align: center;
+  padding: 1.5em 2em 2em;
+  margin-top: 0;
+}
+
+.rss-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  font-family: $ui-font-family;
+  font-size: 0.8em;
+  font-weight: 500;
+  color: $muted-text-color;
+  text-decoration: none;
+  border: 1px solid rgba($muted-text-color, 0.35);
+  border-radius: 3px;
+  padding: 0.35em 0.75em;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: #fff;
+    background: $brand-color;
+    border-color: $brand-color;
+  }
+}
+
+.rss-icon {
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+  flex-shrink: 0;
+}
+
+// ── Autor pages ───────────────────────────────────────────────────────────────
+.autor-post-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.autor-post-item {
+  border-bottom: 1px solid rgba($brand-color, 0.1);
+  padding: 1.2em 0;
+
+  &:last-child { border-bottom: none; }
+}
+
+.autor-post-title {
+  font-family: $title-font-family;
+  font-size: 1.15em;
+  font-weight: 600;
+  color: $text-color;
+  text-decoration: none;
+  display: block;
+  margin-bottom: 0.2em;
+  line-height: 1.3;
+
+  &:hover { color: $brand-color; background: none; }
+}
+
+.autor-post-date {
+  display: block;
+  font-family: $ui-font-family;
+  font-size: 0.82em;
+  color: $muted-text-color;
+  margin-bottom: 0.2em;
+}
+
+.autor-post-blurb {
+  font-family: $title-font-family;
+  font-style: italic;
+  font-size: 0.9em;
+  color: #555;
+  margin: 0.3em 0 0;
+  line-height: 1.5;
 }

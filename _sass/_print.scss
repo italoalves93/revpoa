@@ -10,10 +10,11 @@
     margin-top: 1.5cm;
   }
 
-  // ── Hide nav, share buttons, search ─────────────────────────────────────────
+  // ── Hide nav, share buttons, search, footer ─────────────────────────────────
   .site-navigation,
   .post-share,
   .back-link,
+  .site-footer,
   #search,
   .search-form {
     display: none !important;
@@ -22,11 +23,11 @@
   // ── Masthead: show logo only ──────────────────────────────────────────────────
   .site-masthead {
     background: #fff !important;
-    padding: 0 0 1.2cm !important;
+    padding: 0 0 0.8cm !important;
     margin: 0 !important;
     text-align: left !important;
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 1cm !important;
+    border-bottom: none !important;
+    margin-bottom: 0.6cm !important;
     page-break-after: avoid;
   }
 
@@ -47,10 +48,9 @@
     display: block !important;
     font-family: "Open Sans", Arial, sans-serif;
     font-size: 8.5pt;
-    color: #888;
+    color: #333;
     margin-top: 2em;
-    border-top: 1px solid #ddd;
-    padding-top: 0.6em;
+    padding-top: 0;
     word-break: break-all;
   }
 
@@ -78,13 +78,9 @@
     margin-right: 0 !important;
   }
 
-  // ── Print header: logo + canonical URL ───────────────────────────────────────
+  // ── Remove decorative lines around post header ───────────────────────────────
   .post::before {
-    content: "";
-    display: block;
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 1.4em;
-    padding-bottom: 0.8em;
+    display: none !important;
   }
 
   // ── Title ────────────────────────────────────────────────────────────────────
@@ -105,17 +101,23 @@
   .post-byline {
     font-family: "Open Sans", Arial, sans-serif;
     font-size: 9pt;
-    color: #555;
+    color: #222;
     text-align: left;
     margin-bottom: 0.6em;
 
     a {
-      color: #555;
+      color: #222;
       text-decoration: none;
       border: none;
     }
 
     .byline-sep { margin: 0 0.3em; }
+  }
+
+  // ── Figure captions ───────────────────────────────────────────────────────────
+  figcaption {
+    color: #333 !important;
+    font-size: 8.5pt;
   }
 
   // ── Blurb ────────────────────────────────────────────────────────────────────

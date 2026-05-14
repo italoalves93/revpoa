@@ -1,22 +1,22 @@
 <li>
-  <a href="{{ post.url | relative_url }}" class="post-link">
+  <div class="post-link">
     <div class="post-link__heading">
-      <h1 class="post-link__title">{{ post.title }}</h1>
+      <a href="{{ post.url | relative_url }}" class="post-link__link">
+        <h1 class="post-link__title">{{ post.title }}</h1>
+        {% if post.blurb %}<p class="post-link__blurb">{{ post.blurb }}</p>{% endif %}
+      </a>
       {% assign author_slug = post.author %}
       {% assign author_data = site.data.autores[author_slug] %}
       {% if author_data %}
-        <p class="post-link__author">{{ author_data.nome }}</p>
+        <p class="post-link__author"><a href="{{ '/autores/' | append: author_slug | append: '/' | relative_url }}">{{ author_data.nome }}</a></p>
       {% elsif post.authors %}
         <p class="post-link__author">
           {% for slug in post.authors %}
             {% assign a = site.data.autores[slug] %}
-            {% if a %}{{ a.nome }}{% else %}{{ slug }}{% endif %}{% unless forloop.last %} &amp; {% endunless %}
+            {% if a %}<a href="{{ '/autores/' | append: slug | append: '/' | relative_url }}">{{ a.nome }}</a>{% else %}{{ slug }}{% endif %}{% unless forloop.last %} &amp; {% endunless %}
           {% endfor %}
         </p>
       {% endif %}
-      {% if post.blurb %}
-        <p class="post-link__blurb">{{ post.blurb }}</p>
-      {% endif %}
     </div>
-  </a>
+  </div>
 </li>
