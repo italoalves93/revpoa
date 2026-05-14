@@ -3,19 +3,28 @@
     <div class="post-link__heading">
       <a href="{{ post.url | relative_url }}" class="post-link__link">
         <h1 class="post-link__title">{{ post.title }}</h1>
-        {% if post.blurb %}<p class="post-link__blurb">{{ post.blurb }}</p>{% endif %}
       </a>
-      {% assign author_slug = post.author %}
-      {% assign author_data = site.data.autores[author_slug] %}
-      {% if author_data %}
-        <p class="post-link__author"><a href="{{ '/autores/' | append: author_slug | append: '/' | relative_url }}">{{ author_data.nome }}</a></p>
-      {% elsif post.authors %}
-        <p class="post-link__author">
+      <p class="post-link__meta">
+        {% assign pub_date = post.date | date: "%-d de %B de %Y" %}
+        {% assign pub_date = pub_date | replace: "January","janeiro" | replace: "February","fevereiro" | replace: "March","março" | replace: "April","abril" | replace: "May","maio" | replace: "June","junho" | replace: "July","julho" | replace: "August","agosto" | replace: "September","setembro" | replace: "October","outubro" | replace: "November","novembro" | replace: "December","dezembro" %}
+        <span class="post-link__date">{{ pub_date }}</span>
+        {% assign author_slug = post.author %}
+        {% assign author_data = site.data.autores[author_slug] %}
+        {% if author_data %}
+          <span class="post-link__sep">&middot;</span>
+          <a href="{{ '/autores/' | append: author_slug | append: '/' | relative_url }}" class="post-link__author-link">{{ author_data.nome }}</a>
+        {% elsif post.authors %}
+          <span class="post-link__sep">&middot;</span>
           {% for slug in post.authors %}
             {% assign a = site.data.autores[slug] %}
-            {% if a %}<a href="{{ '/autores/' | append: slug | append: '/' | relative_url }}">{{ a.nome }}</a>{% else %}{{ slug }}{% endif %}{% unless forloop.last %} &amp; {% endunless %}
+            {% if a %}<a href="{{ '/autores/' | append: slug | append: '/' | relative_url }}" class="post-link__author-link">{{ a.nome }}</a>{% else %}{{ slug }}{% endif %}{% unless forloop.last %} &amp; {% endunless %}
           {% endfor %}
-        </p>
+        {% endif %}
+      </p>
+      {% if post.blurb %}
+        <a href="{{ post.url | relative_url }}" class="post-link__blurb-link">
+          <p class="post-link__blurb">{{ post.blurb }}</p>
+        </a>
       {% endif %}
     </div>
   </div>

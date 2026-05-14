@@ -27,9 +27,12 @@ layout: null
               {% assign author_names = "" %}
               {% for slug in post.authors %}
                 {% assign a = site.data.autores[slug] %}
-                {% assign author_names = author_names | append: a.nome | append: ", " %}
+                {% unless forloop.last %}
+                  {% assign author_names = author_names | append: a.nome | append: " e " %}
+                {% else %}
+                  {% assign author_names = author_names | append: a.nome %}
+                {% endunless %}
               {% endfor %}
-              {% assign author_names = author_names | remove_last: ", " %}
               "author": { "name": {{ author_names | jsonify }} }
             {% elsif post.author %}
               {% assign a = site.data.autores[post.author] %}

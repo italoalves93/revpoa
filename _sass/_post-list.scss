@@ -60,26 +60,38 @@
   }
 }
 
-.post-link__author {
+.post-link__meta {
   font-family: $ui-font-family;
   font-size: 0.82em;
-  font-weight: 400;
   color: $muted-text-color;
-  margin: 0 0 0.5em;
-  letter-spacing: 0.01em;
+  margin: 0.2em 0 0.5em;
+}
 
-  a {
-    color: $muted-text-color;
-    text-decoration: none;
-    border-bottom: 1px solid rgba($muted-text-color, 0.3);
-    transition: color 0.2s ease, border-color 0.2s ease;
+.post-link__date {
+  color: $muted-text-color;
+}
 
-    &:hover {
-      color: $brand-color;
-      border-color: $brand-color;
-      background: none;
-    }
+.post-link__sep {
+  margin: 0 0.4em;
+  color: rgba($muted-text-color, 0.5);
+}
+
+.post-link__author-link {
+  color: $muted-text-color;
+  text-decoration: none;
+  border-bottom: 1px solid rgba($muted-text-color, 0.3);
+  transition: color 0.2s ease, border-color 0.2s ease;
+
+  &:hover {
+    color: $brand-color;
+    border-color: $brand-color;
+    background: none;
   }
+}
+
+.post-link__blurb-link {
+  display: block;
+  text-decoration: none;
 }
 
 .post-link__blurb {
